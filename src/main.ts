@@ -551,6 +551,8 @@ loader.load(BASE + 'models/Curved monitor.glb', (gltf) => {
     scene.add(curved)
 })
 
+let laptopModel: THREE.Group | null = null
+
 loader.load(BASE + 'models/laptop.glb', (gltf) => {
     const laptop = gltf.scene
     laptop.position.set(-0.5, 1, -2.35)
@@ -564,6 +566,7 @@ loader.load(BASE + 'models/laptop.glb', (gltf) => {
     })
 
     scene.add(laptop)
+    laptopModel = laptop
 })
 
 loader.load(BASE + 'models/Rf.glb', (gltf) => {
@@ -769,6 +772,10 @@ const doorSoundSource = new THREE.Object3D()
 doorSoundSource.position.set(4, 1, 1.65)
 scene.add(doorSoundSource)
 
+const behindSoundSource = new THREE.Object3D()
+behindSoundSource.position.set(0, 1, 2.65)
+scene.add(behindSoundSource)
+
 const serversSoundSource = new THREE.Object3D()
 serversSoundSource.position.set(4, 1, -1.65)
 scene.add(serversSoundSource)
@@ -794,7 +801,7 @@ audioLoader.load(BASE + 'assets/sounds/water.wav', (buffer) => {
     waterSound.setRefDistance(2)
     waterSound.setMaxDistance(18)
 })
-doorSoundSource.add(waterSound)
+behindSoundSource.add(waterSound)
 
 const phoneSound = new THREE.PositionalAudio(listener)
 audioLoader.load(BASE + 'assets/sounds/phonering.wav', (buffer) => {
@@ -814,13 +821,16 @@ audioLoader.load(BASE + 'assets/sounds/ambulance.mp3', (buffer) => {
 })
 windowSoundSource.add(ambulanceSound)
 
-const fanLoopSound = new THREE.Audio(listener)
+const fanLoopSound = new THREE.PositionalAudio(listener)
 audioLoader.load(BASE + 'assets/sounds/fan.wav', (buffer) => {
     fanLoopSound.setBuffer(buffer)
     fanLoopSound.setLoop(true)
     fanLoopSound.setVolume(2)
+    fanLoopSound.setRefDistance(5)
+    fanLoopSound.setMaxDistance(15)
     fanLoopSound.play()
 })
+behindSoundSource.add(fanLoopSound)
 
 const serversLoopSound = new THREE.PositionalAudio(listener)
 audioLoader.load(BASE + 'assets/sounds/servers.wav', (buffer) => {
@@ -890,19 +900,72 @@ let targetRotationX = 0
 const maxRotationY = Math.PI * 0.9
 const maxRotationX = Math.PI * 0.15
 
+const raycaster = new THREE.Raycaster()
+const mouse = new THREE.Vector2()
+let zooming = false
+
+const laptopTarget = {
+    pos: new THREE.Vector3(-0.5, 1.35, -2.0),
+    rot: new THREE.Euler(-0.15, Math.PI, 0),
+}
+
+canvas.addEventListener('click', (e) => {
+    if (zooming || !laptopModel) return
+
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+
+    raycaster.setFromCamera(mouse, camera)
+    const hits = raycaster.intersectObject(laptopModel, true)
+
+    if (hits.length > 0) {
+        zooming = true
+    }
+})
+
+let laptopHovered = false
+
 document.addEventListener('mousemove', (e) => {
+    if (zooming) return
     const mouseX = (e.clientX / window.innerWidth) * 2 - 1
     const mouseY = (e.clientY / window.innerHeight) * 2 - 1
 
     targetRotationY = -mouseX * maxRotationY
     targetRotationX = -mouseY * maxRotationX
+
+    if (!laptopModel) return
+    mouse.x = mouseX
+    mouse.y = -mouseY
+    raycaster.setFromCamera(mouse, camera)
+    const hits = raycaster.intersectObject(laptopModel, true)
+    const hovered = hits.length > 0
+
+    if (hovered !== laptopHovered) {
+        laptopHovered = hovered
+        canvas.style.cursor = hovered ? 'pointer' : ''
+        laptopModel.traverse((child) => {
+            if (child instanceof THREE.Mesh && 'emissive' in child.material) {
+                child.material.emissive.set(hovered ? 0x00ff41 : 0x000000)
+                child.material.emissiveIntensity = hovered ? 0.8 : 0
+            }
+        })
+    }
 })
 
 function animate() {
     requestAnimationFrame(animate)
 
-    camera.rotation.y += (targetRotationY - camera.rotation.y) * 0.05
-    camera.rotation.x += (targetRotationX - camera.rotation.x) * 0.05
+    if (zooming) {
+        camera.position.lerp(laptopTarget.pos, 0.03)
+
+        const dist = camera.position.distanceTo(laptopTarget.pos)
+        if (dist < 0.05) {
+            window.location.href = './computer.html'
+        }
+    } else {
+        camera.rotation.y += (targetRotationY - camera.rotation.y) * 0.05
+        camera.rotation.x += (targetRotationX - camera.rotation.x) * 0.05
+    }
 
     renderer.render(scene, camera)
 }

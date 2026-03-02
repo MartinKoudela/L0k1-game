@@ -103,3 +103,9 @@ const time = document.getElementById('topbar-time')
 
 date && setInterval(() => date.innerHTML = new Date().toLocaleDateString(), 1000)
 time && setInterval(() => time.innerHTML = new Date().toLocaleTimeString(), 1000)
+
+const icons = document.querySelectorAll('.icon')
+icons.forEach(icon => icon.addEventListener('click', () => terminal.addLine("We are in your system, use terminal only.")))
+
+const btns = document.querySelectorAll('.window-btn')
+btns.forEach(btn => btn.addEventListener('click', () => terminal.addLine("We are in your system, don't do that.")))

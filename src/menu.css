@@ -46,6 +46,51 @@ body {
     overflow: hidden;
 }
 
+#desktop-icons {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 100%;
+    padding-bottom: 16px;
+    z-index: 2;
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    padding: 8px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+
+.desktop-icon:hover {
+    background: rgba(0, 255, 65, 0.08);
+}
+
+.desktop-icon i {
+    font-size: 32px;
+    color: #00ff41;
+    opacity: 0.7;
+    margin-bottom: 6px;
+}
+
+.desktop-icon span {
+    font-size: 11px;
+    color: #00ff41;
+    opacity: 0.8;
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.2;
+}
+
 #window {
     position: absolute;
     width: 700px;
