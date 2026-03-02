@@ -23,35 +23,136 @@ const pointLight = new THREE.PointLight(0xffffff, 1, 20)
 pointLight.position.set(0, 2.5, 0)
 scene.add(pointLight)
 
+const textureLoader = new THREE.TextureLoader()
+const BASE = import.meta.env.BASE_URL
+
+const floorColor = textureLoader.load(BASE + 'assets/textures/floor/Planks037A_2K-JPG_Color.jpg')
+floorColor.wrapS = THREE.RepeatWrapping
+floorColor.wrapT = THREE.RepeatWrapping
+floorColor.repeat.set(3, 3)
+
+const floorNormal = textureLoader.load(BASE + 'assets/textures/floor/Planks037A_2K-JPG_NormalGL.jpg')
+floorNormal.wrapS = THREE.RepeatWrapping
+floorNormal.wrapT = THREE.RepeatWrapping
+floorNormal.repeat.set(3, 3)
+
+const floorRoughness = textureLoader.load(BASE + 'assets/textures/floor/Planks037A_2K-JPG_Roughness.jpg')
+floorRoughness.wrapS = THREE.RepeatWrapping
+floorRoughness.wrapT = THREE.RepeatWrapping
+floorRoughness.repeat.set(3, 3)
+
 const floorGeometry = new THREE.PlaneGeometry(6, 6)
-const floorMaterial = new THREE.MeshStandardMaterial({color: 0x888888})
+const floorMaterial = new THREE.MeshStandardMaterial({
+    map: floorColor,
+    color: 0xaaaaaa,
+    normalMap: floorNormal,
+    roughnessMap: floorRoughness,
+})
 const floor = new THREE.Mesh(floorGeometry, floorMaterial)
 floor.rotation.x = -Math.PI / 2
 floor.position.y = 0
 scene.add(floor)
 
-const wallMaterial = new THREE.MeshStandardMaterial({color: 0xaaaaaa})
+const wallColor = textureLoader.load(BASE + 'assets/textures/wall/Plaster006_2K-JPG_Color.jpg')
+wallColor.wrapS = THREE.RepeatWrapping
+wallColor.wrapT = THREE.RepeatWrapping
+wallColor.repeat.set(3, 3)
+
+const wallNormal = textureLoader.load(BASE + 'assets/textures/wall/Plaster006_2K-JPG_NormalDX.jpg')
+wallNormal.wrapS = THREE.RepeatWrapping
+wallNormal.wrapT = THREE.RepeatWrapping
+wallNormal.repeat.set(3, 3)
+
+const wallRoughness = textureLoader.load(BASE + 'assets/textures/wall/Plaster006_2K-JPG_Roughness.jpg')
+wallRoughness.wrapS = THREE.RepeatWrapping
+wallRoughness.wrapT = THREE.RepeatWrapping
+wallRoughness.repeat.set(3, 3)
+
+const wallMaterial = new THREE.MeshStandardMaterial({
+    map: wallColor,
+    color: 0xbbbbbb,
+    normalMap: wallNormal,
+    roughnessMap: wallRoughness,
+})
+
+const rightWallShape = new THREE.Shape()
+rightWallShape.moveTo(-3, -1.5)
+rightWallShape.lineTo(3, -1.5)
+rightWallShape.lineTo(3, 1.5)
+rightWallShape.lineTo(-3, 1.5)
+rightWallShape.lineTo(-3, -1.5)
+
+const doorHole = new THREE.Path()
+doorHole.moveTo(-1.16, 1)
+doorHole.lineTo(1.1, 1)
+doorHole.lineTo(1.1, -1.49)
+doorHole.lineTo(2.2, -1.49)
+doorHole.lineTo(2.2, 1)
+
+rightWallShape.holes.push(doorHole)
+
+const rightWall = new THREE.Mesh(new THREE.ShapeGeometry(rightWallShape), wallMaterial)
+rightWall.position.set(3, 1.5, 0)
+rightWall.rotation.y = -Math.PI / 2
+scene.add(rightWall)
 
 const backWall = new THREE.Mesh(new THREE.PlaneGeometry(6, 3), wallMaterial)
 backWall.position.set(0, 1.5, -3)
 scene.add(backWall)
 
-const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(6, 3), wallMaterial)
+const leftWallShape = new THREE.Shape()
+leftWallShape.moveTo(-3, -1.5)
+leftWallShape.lineTo(3, -1.5)
+leftWallShape.lineTo(3, 1.5)
+leftWallShape.lineTo(-3, 1.5)
+leftWallShape.lineTo(-3, -1.5)
+
+const windowHole = new THREE.Path()
+windowHole.moveTo(-1.16, 0.8)
+windowHole.lineTo(-0.6, 0.8)
+windowHole.lineTo(-0.6, -0.5)
+windowHole.lineTo(-2, -0.5)
+windowHole.lineTo(-2, 0.8)
+
+const windowHole2 = new THREE.Path()
+windowHole2.moveTo(0.6, -0.5)
+windowHole2.lineTo(1.2, -0.5)
+windowHole2.lineTo(1.2, 0.8)
+windowHole2.lineTo(-0.1, 0.8)
+windowHole2.lineTo(-0.1, -0.5)
+
+leftWallShape.holes.push(windowHole, windowHole2)
+
+const leftWall = new THREE.Mesh(new THREE.ShapeGeometry(leftWallShape), wallMaterial)
 leftWall.position.set(-3, 1.5, 0)
 leftWall.rotation.y = Math.PI / 2
 scene.add(leftWall)
-
-const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(6, 3), wallMaterial)
-rightWall.position.set(3, 1.5, 0)
-rightWall.rotation.y = -Math.PI / 2
-scene.add(rightWall)
 
 const frontWall = new THREE.Mesh(new THREE.PlaneGeometry(6, 3), wallMaterial)
 frontWall.position.set(0, 1.5, 3)
 frontWall.rotation.y = Math.PI
 scene.add(frontWall)
 
-const ceilingMaterial = new THREE.MeshStandardMaterial({color: 0xcccccc})
+const ceilingColor = textureLoader.load(BASE + 'assets/textures/ceiling/Concrete042B_2K-JPG_Color.jpg')
+ceilingColor.wrapS = THREE.RepeatWrapping
+ceilingColor.wrapT = THREE.RepeatWrapping
+ceilingColor.repeat.set(3, 3)
+
+const ceilingNormal = textureLoader.load(BASE + 'assets/textures/ceiling/Concrete042B_2K-JPG_NormalDX.jpg')
+ceilingNormal.wrapS = THREE.RepeatWrapping
+ceilingNormal.wrapT = THREE.RepeatWrapping
+ceilingNormal.repeat.set(3, 3)
+
+const ceilingRoughness = textureLoader.load(BASE + 'assets/textures/ceiling/Concrete042B_2K-JPG_Roughness.jpg')
+ceilingRoughness.wrapS = THREE.RepeatWrapping
+ceilingRoughness.wrapT = THREE.RepeatWrapping
+ceilingRoughness.repeat.set(3, 3)
+
+const ceilingMaterial = new THREE.MeshStandardMaterial({
+    map: ceilingColor,
+    normalMap: ceilingNormal,
+    roughnessMap: ceilingRoughness,
+})
 const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(6, 6), ceilingMaterial)
 ceiling.rotation.x = Math.PI / 2
 ceiling.position.y = 3
@@ -64,7 +165,6 @@ deskLight.target.position.set(0, 0.8, -2.5)
 scene.add(deskLight)
 scene.add(deskLight.target)
 
-const BASE = import.meta.env.BASE_URL
 const loader = new GLTFLoader()
 
 loader.load(BASE + 'models/Ceiling.glb', (gltf) => {
@@ -342,8 +442,6 @@ loader.load(BASE + 'models/Case.glb', (gltf) => {
 })
 
 
-const textureLoader = new THREE.TextureLoader()
-
 const monitorScreenTex = textureLoader.load(BASE + 'assets/textures/screen.png')
 monitorScreenTex.rotation = Math.PI / 2
 monitorScreenTex.center.set(0.5, 0.5)
@@ -498,6 +596,28 @@ loader.load(BASE + 'models/Glock.glb', (gltf) => {
     glock.scale.set(1.2, 1.2, 1.2)
     scene.add(glock)
 })
+
+const starsGeometry = new THREE.BufferGeometry()
+const starsCount = 200
+const positions = new Float32Array(starsCount * 3)
+
+for (let i = 0; i < starsCount * 3; i += 3) {
+    positions[i] = -4 - Math.random() * 8
+    positions[i + 1] = Math.random() * 8 + 2
+    positions[i + 2] = Math.random() * 12 - 2
+}
+
+starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions,
+    3))
+
+const starsMaterial = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.02,
+})
+
+const stars = new THREE.Points(starsGeometry, starsMaterial)
+scene.add(stars)
+
 
 // camera.position.set(0, 1.5, -1.5) // pozice kamery
 camera.position.set(0, 1.5, -1.5) // pozice kamery - development

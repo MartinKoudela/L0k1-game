@@ -2,6 +2,12 @@ import './menu.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import {Terminal} from './terminal/terminal'
 
+document.addEventListener('click', () => {
+    document.body.requestFullscreen().catch(
+        (err) => console.error('Error requesting fullscreen:', err)
+    )
+}, {once: true})
+
 const terminal = new Terminal(document.getElementById('menu')!, {
     'help': () => {
         terminal.addLine('=== GAME ===')
