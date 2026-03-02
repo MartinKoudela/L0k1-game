@@ -50,6 +50,7 @@ const models = [
     'Bins.glb',
     'Pizza.glb',
     'Garbage.glb',
+    'Lamp.glb',
 ]
 
 function setProgress(value: number) {

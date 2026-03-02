@@ -695,6 +695,84 @@ const stars = new THREE.Points(starsGeometry, starsMaterial)
 scene.add(stars)
 
 
+const listener = new THREE.AudioListener()
+camera.add(listener)
+
+const audioLoader = new THREE.AudioLoader()
+
+const windowSoundSource = new THREE.Object3D()
+windowSoundSource.position.set(-5, 1.5, -0.5)
+scene.add(windowSoundSource)
+
+const doorSoundSource = new THREE.Object3D()
+doorSoundSource.position.set(4, 1, 1.65)
+scene.add(doorSoundSource)
+
+const dogSounds = [
+    BASE + 'assets/sounds/dogs.wav',
+    BASE + 'assets/sounds/dogs2.wav',
+]
+
+const crackSound = new THREE.PositionalAudio(listener)
+audioLoader.load(BASE + 'assets/sounds/floor-cracking.wav', (buffer) => {
+    crackSound.setBuffer(buffer)
+    crackSound.setVolume(0.5)
+    crackSound.setRefDistance(2)
+    crackSound.setMaxDistance(12)
+})
+doorSoundSource.add(crackSound)
+
+const ambulanceSound = new THREE.PositionalAudio(listener)
+audioLoader.load(BASE + 'assets/sounds/ambulance.mp3', (buffer) => {
+    ambulanceSound.setBuffer(buffer)
+    ambulanceSound.setVolume(2)
+    ambulanceSound.setRefDistance(1)
+    ambulanceSound.setMaxDistance(15)
+})
+windowSoundSource.add(ambulanceSound)
+
+const fanLoopSound = new THREE.Audio(listener)
+audioLoader.load(BASE + 'assets/sounds/fan.wav', (buffer) => {
+    fanLoopSound.setBuffer(buffer)
+    fanLoopSound.setLoop(true)
+    fanLoopSound.setVolume(0.5)
+    fanLoopSound.play()
+})
+
+function playRandomDog() {
+    const dog = new THREE.PositionalAudio(listener)
+    dog.setRefDistance(1)
+    dog.setMaxDistance(15)
+    windowSoundSource.add(dog)
+    const src = dogSounds[Math.floor(Math.random() * dogSounds.length)]
+    audioLoader.load(src, (buffer) => {
+        dog.setBuffer(buffer)
+        dog.setVolume(0.5)
+        dog.play()
+        dog.onEnded = () => windowSoundSource.remove(dog)
+    })
+    setTimeout(playRandomDog, 30000 + Math.random() * 60000)
+}
+
+function playRandomCrack() {
+    if (!crackSound.isPlaying) {
+        crackSound.play()
+    }
+    setTimeout(playRandomCrack, 20000 + Math.random() * 40000)
+}
+
+function playRandomAmbulance() {
+    if (!ambulanceSound.isPlaying) {
+        ambulanceSound.play()
+    }
+    setTimeout(playRandomAmbulance, 20000 + Math.random() * 40000)
+}
+
+setTimeout(playRandomDog, 5000 + Math.random() * 15000)
+setTimeout(playRandomCrack, 10000 + Math.random() * 20000)
+setTimeout(playRandomAmbulance, 25000 + Math.random() * 30000)
+
+
 // camera.position.set(0, 1.5, -1.5) // pozice kamery
 camera.position.set(0, 1.5, -1.5) // pozice kamery - development
 
