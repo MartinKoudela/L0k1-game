@@ -37,6 +37,19 @@ const models = [
     'Drone.glb',
     'Kitchen.glb',
     'Carpet.glb',
+    'Ceiling.glb',
+    'Fan.glb',
+    'Chair.glb',
+    'Bag.glb',
+    'Plug.glb',
+    'Cables.glb',
+    'Shoes.glb',
+    'Door.glb',
+    'Esp.glb',
+    'Monster.glb',
+    'Bins.glb',
+    'Pizza.glb',
+    'Garbage.glb',
 ]
 
 function setProgress(value: number) {

@@ -191,6 +191,22 @@ loader.load(BASE + 'models/Skateboard.glb', (gltf) => {
     scene.add(skate)
 })
 
+loader.load(BASE + 'models/Shoes.glb', (gltf) => {
+    const skate = gltf.scene
+    skate.position.set(-2.2, 0.4, -2.5)
+    skate.rotation.y = Math.PI / -1
+    skate.scale.set(1.4, 1.3, 1.3)
+    scene.add(skate)
+})
+
+loader.load(BASE + 'models/Shoes.glb', (gltf) => {
+    const shoe2 = gltf.scene
+    shoe2.position.set(-2.4, 0.4, -2.35)
+    shoe2.rotation.y = Math.PI / -1.3
+    shoe2.scale.set(1.4, 1.3, 1.3)
+    scene.add(shoe2)
+})
+
 loader.load(BASE + 'models/Drone.glb', (gltf) => {
     const drone = gltf.scene
     drone.position.set(-2.5, 1.95, -1.5)
