@@ -439,14 +439,6 @@ loader.load(BASE + 'models/Mouse.glb', (gltf) => {
     scene.add(mouse)
 })
 
-loader.load(BASE + 'models/Esp.glb', (gltf) => {
-    const pcb = gltf.scene
-    pcb.position.set(0.5, 1, -2.2)
-    pcb.rotation.y = Math.PI / 2
-    pcb.scale.set(1.6, 1.6, 1.6)
-    scene.add(pcb)
-})
-
 loader.load(BASE + 'models/Keyboard.glb', (gltf) => {
     const keyboard = gltf.scene
     keyboard.position.set(0, 1, -2.2)
@@ -510,7 +502,7 @@ loader.load(BASE + 'models/Headphones.glb', (gltf) => {
 
 loader.load(BASE + 'models/Case.glb', (gltf) => {
     const PCcase = gltf.scene
-    PCcase.position.set(-0.93, 0, -2.8)
+    PCcase.position.set(-0.93, 0.3, -2.8)
     PCcase.rotation.x = Math.PI / -2
     PCcase.rotation.z = Math.PI
     PCcase.scale.set(0.011, 0.011, 0.011)
@@ -602,6 +594,78 @@ loader.load(BASE + 'models/Speaker.glb', (gltf) => {
     speaker.rotation.y = Math.PI / -0.5
     speaker.scale.set(1.4, 1.4, 1.4)
     scene.add(speaker)
+})
+
+loader.load(BASE + 'models/Poster.glb', (gltf) => {
+    const poster = gltf.scene
+    poster.position.set(-1.3, 1.8, -2.9)
+    poster.rotation.y = Math.PI / -1
+    poster.scale.set(1.4, 1.4, 1.4)
+    scene.add(poster)
+})
+
+loader.load(BASE + 'models/Graffiti4.glb', (gltf) => {
+    const graffiti = gltf.scene
+    graffiti.position.set(0, 0, -2.99)
+    graffiti.rotation.y = Math.PI / -0.5
+    graffiti.scale.set(1, 1, 1)
+    scene.add(graffiti)
+})
+
+loader.load(BASE + 'models/Graffiti4.glb', (gltf) => {
+    const graffiti = gltf.scene
+    graffiti.position.set(-2.5, -0.2, -2.99)
+    graffiti.rotation.y = Math.PI / -0.5
+    graffiti.scale.set(1, 1, 1)
+    scene.add(graffiti)
+})
+
+loader.load(BASE + 'models/Graffiti2.glb', (gltf) => {
+    const graffiti = gltf.scene
+    graffiti.position.set(2.3, -0.5, -2.99)
+    graffiti.rotation.y = Math.PI / -0.5
+    graffiti.scale.set(0.03, 0.03, 0.03)
+    scene.add(graffiti)
+})
+
+loader.load(BASE + 'models/Graffiti.glb', (gltf) => {
+    const graffiti2 = gltf.scene
+    graffiti2.position.set(1, 1.8, 2.99)
+    graffiti2.rotation.y = Math.PI / -1
+    graffiti2.scale.set(0.01, 0.01, 0.01)
+    scene.add(graffiti2)
+})
+
+loader.load(BASE + 'models/Graffiti.glb', (gltf) => {
+    const graffiti4 = gltf.scene
+    graffiti4.position.set(1, 4.1, 2.99)
+    graffiti4.rotation.y = Math.PI / -1
+    graffiti4.scale.set(0.01, 0.01, 0.01)
+    scene.add(graffiti4)
+})
+
+loader.load(BASE + 'models/Graffiti1.glb', (gltf) => {
+    const graffiti3 = gltf.scene
+    graffiti3.position.set(-1.8, 1, 2.99)
+    graffiti3.rotation.y = Math.PI / -1
+    graffiti3.scale.set(0.015, 0.015, 0.015)
+    scene.add(graffiti3)
+})
+
+loader.load(BASE + 'models/Graffiti3.glb', (gltf) => {
+    const graffiti3 = gltf.scene
+    graffiti3.position.set(2.99, 0.3, -0.5)
+    graffiti3.rotation.y = Math.PI / - 2
+    graffiti3.scale.set(0.014, 0.014, 0.014)
+    scene.add(graffiti3)
+})
+
+loader.load(BASE + 'models/Graffiti.glb', (gltf) => {
+    const graffiti = gltf.scene
+    graffiti.position.set(2.99, 1, -0.9)
+    graffiti.rotation.y = Math.PI / - 2
+    graffiti.scale.set(0.01, 0.01, 0.01)
+    scene.add(graffiti)
 })
 
 loader.load(BASE + 'models/Camera.glb', (gltf) => {
