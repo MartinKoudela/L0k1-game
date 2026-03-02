@@ -146,11 +146,11 @@ leftWallShape.lineTo(-3, 1.5)
 leftWallShape.lineTo(-3, -1.5)
 
 const windowHole = new THREE.Path()
-windowHole.moveTo(-1.16, 0.8)
-windowHole.lineTo(-0.6, 0.8)
+windowHole.moveTo(-1.16, 0.83)
+windowHole.lineTo(-0.6, 0.83)
 windowHole.lineTo(-0.6, -0.5)
 windowHole.lineTo(-1.9, -0.5)
-windowHole.lineTo(-1.9, 0.8)
+windowHole.lineTo(-1.9, 0.83)
 
 const windowHole2 = new THREE.Path()
 windowHole2.moveTo(0.6, -0.5)
@@ -772,6 +772,10 @@ const doorSoundSource = new THREE.Object3D()
 doorSoundSource.position.set(4, 1, 1.65)
 scene.add(doorSoundSource)
 
+const serversSoundSource = new THREE.Object3D()
+serversSoundSource.position.set(4, 1, -1.65)
+scene.add(serversSoundSource)
+
 const dogSounds = [
     BASE + 'assets/sounds/dogs.wav',
     BASE + 'assets/sounds/dogs2.wav',
@@ -782,7 +786,7 @@ audioLoader.load(BASE + 'assets/sounds/floor-cracking.wav', (buffer) => {
     crackSound.setBuffer(buffer)
     crackSound.setVolume(0.5)
     crackSound.setRefDistance(2)
-    crackSound.setMaxDistance(12)
+    crackSound.setMaxDistance(18)
 })
 doorSoundSource.add(crackSound)
 
@@ -802,6 +806,17 @@ audioLoader.load(BASE + 'assets/sounds/fan.wav', (buffer) => {
     fanLoopSound.setVolume(0.5)
     fanLoopSound.play()
 })
+
+const serversLoopSound = new THREE.PositionalAudio(listener)
+audioLoader.load(BASE + 'assets/sounds/servers.wav', (buffer) => {
+    serversLoopSound.setBuffer(buffer)
+    serversLoopSound.setLoop(true)
+    serversLoopSound.setRefDistance(5)
+    serversLoopSound.setMaxDistance(40)
+    serversLoopSound.play()
+})
+serversSoundSource.add(serversLoopSound)
+
 
 function playRandomDog() {
     const dog = new THREE.PositionalAudio(listener)
