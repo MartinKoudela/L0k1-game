@@ -1,4 +1,4 @@
-import './menu.css'
+import './computer.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import {Terminal} from './terminal/terminal'
 
@@ -10,11 +10,6 @@ document.addEventListener('click', () => {
 
 const terminal = new Terminal(document.getElementById('menu')!, {
     'help': () => {
-        terminal.addLine('=== GAME ===')
-        terminal.addLine('  ./survival      - start survival mode')
-        terminal.addLine('  ./endless       - start endless mode')
-        terminal.addLine('  cat readme      - how to play')
-        terminal.addLine('')
         terminal.addLine('=== FILES ===')
         terminal.addLine('  ls              - list files')
         terminal.addLine('  ls <file>       - list files in directory')
@@ -45,14 +40,23 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     },
 
     'ls': () => {
-        terminal.addLine('readme')
         terminal.addLine('enemies/')
-        terminal.addLine('settings')
-        terminal.addLine('survival')
-        terminal.addLine('endless')
+        terminal.addLine('readme')
         return 'fsoceity'
     },
-
+    './survival': () => {
+        window.location.href = './loading.html?mode=survival'
+        return 'Loading survival mode...'
+    },
+    './endless': () => {
+        return 'Coming soon...'
+    },
+    'cat readme': () => {
+        terminal.addLine('You are a hacker. Clients give you quests.')
+        terminal.addLine('Use real terminal commands to complete them.')
+        terminal.addLine('Watch your back - if they find you, it\'s over.')
+        return 'Type "help" to see all available commands.'
+    },
     'ls enemies': () => {
         terminal.addLine('=== KNOWN THREATS ===')
         terminal.addLine('')
@@ -280,23 +284,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
         return 'Third hit - and the door is gone.'
     },
 
-    './survival': () => {
-        window.location.href = './loading.html?mode=survival'
-        return 'Loading survival mode...'
-    },
-    './endless': () => {
-        return 'Coming soon...'
-    },
-    'cat readme': () => {
-        terminal.addLine('You are a hacker. Clients give you quests.')
-        terminal.addLine('Use real terminal commands to complete them.')
-        terminal.addLine('Watch your back - if they find you, it\'s over.')
-        return 'Type "help" to see all available commands.'
-    },
-    'cat settings': () => 'Settings: coming soon',
     'cat fsoceity': () => 'We are watching you.',
-    'cat survival': () => 'Executable file. Use ./survival to run.',
-    'cat endless': () => 'Executable file. Use ./endless to run.',
 
     'ssh': () => 'Usage: ssh <user>@<host> (available in game)',
     'scp': () => 'Usage: scp <file> <user>@<host>:<path> (available in game)',

@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Ubuntu Mono', monospace;
+    color: #00ff41;
+}
+
+#topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    padding: 0 16px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #00ff4120;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #00ff41b0;
+    font-size: 12px;
+}
+
+#menu-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+#desktop-icons {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 100%;
+    padding-bottom: 16px;
+    z-index: 2;
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    padding: 8px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+
+.desktop-icon:hover {
+    background: rgba(0, 255, 65, 0.08);
+}
+
+.desktop-icon i {
+    font-size: 32px;
+    color: #00ff41;
+    opacity: 0.7;
+    margin-bottom: 6px;
+}
+
+.desktop-icon span {
+    font-size: 11px;
+    color: #00ff41;
+    opacity: 0.8;
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.2;
+}
+
+#window {
+    position: absolute;
+    width: 700px;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #00ff4130;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 255, 65, 0.05);
+}
+
+#window-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    padding: 0 12px;
+    background: #111;
+    border-bottom: 1px solid #00ff4120;
+    flex-shrink: 0;
+    cursor: grab;
+    user-select: none;
+}
+
+#window-titlebar:active {
+    cursor: grabbing;
+}
+
+.window-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 60px;
+}
+
+.window-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.window-btn i {
+    font-size: 7px;
+    color: transparent;
+    transition: color 0.15s;
+}
+
+.window-buttons:hover .window-btn i {
+    color: #000000cc;
+}
+
+.btn-close {
+    background: #ff5f57;
+}
+
+.btn-minimize {
+    background: #ffbd2e;
+}
+
+.btn-maximize {
+    background: #28c840;
+}
+
+.window-title {
+    font-size: 12px;
+    color: #00ff4180;
+}
+
+.window-buttons-spacer {
+    width: 60px;
+}
+
+#menu {
+    width: 100%;
+    background: #0a0a0a;
+    padding: 16px;
+    font-size: 14px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+#bottombar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    padding: 0 16px;
+    background: #0a0a0a;
+    border-top: 1px solid #00ff4120;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.bottombar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.bottombar-left i {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.bottombar-left i:first-child {
+    opacity: 1;
+}
+
+.bottombar-left i:hover {
+    opacity: 1;
+}
+
+.bottombar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00ff41b0;
+    font-size: 12px;
+}
