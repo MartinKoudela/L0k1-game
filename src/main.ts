@@ -925,6 +925,8 @@ canvas.addEventListener('click', (e) => {
     const hits = raycaster.intersectObject(laptopModel, true)
 
     if (hits.length > 0) {
+        savedCameraPos.copy(camera.position)
+        savedCameraRot.copy(camera.rotation)
         zooming = true
     }
 })
@@ -1060,6 +1062,34 @@ function lightsOn() {
     }
 }
 
+const computerOverlay = document.getElementById('computer-overlay')!
+const computerContainer = document.getElementById('computer-container')!
+let computerOpen = false
+
+const savedCameraPos = new THREE.Vector3()
+const savedCameraRot = new THREE.Euler()
+
+function openComputer() {
+    computerOpen = true
+    zooming = false
+    computerOverlay.classList.remove('hidden')
+    computerContainer.innerHTML = '<iframe src="./computer.html" style="width:100%;height:100%;border:none;"></iframe>'
+}
+
+function closeComputer() {
+    computerOpen = false
+    computerOverlay.classList.add('hidden')
+    computerContainer.innerHTML = ''
+    camera.position.copy(savedCameraPos)
+    camera.rotation.copy(savedCameraRot)
+}
+
+window.addEventListener('message', (e) => {
+    if (e.data === 'close-computer' && computerOpen) {
+        closeComputer()
+    }
+})
+
 function animate() {
     requestAnimationFrame(animate)
 
@@ -1068,7 +1098,7 @@ function animate() {
 
         const dist = camera.position.distanceTo(laptopTarget.pos)
         if (dist < 0.05) {
-            window.location.href = './computer.html'
+            openComputer()
         }
     } else {
         camera.rotation.y += (targetRotationY - camera.rotation.y) * 0.05

@@ -72,6 +72,11 @@
         <span>73%</span>
     </div>
 </footer>
+<script>
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'q') window.parent.postMessage('close-computer', '*')
+    })
+</script>
 <script type="module" src="/src/menu.ts"></script>
 </body>
 </html>
