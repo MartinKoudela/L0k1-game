@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
+import { Strangler } from './enemies/strangler'
 
 document.addEventListener('click', () => {
     document.body.requestFullscreen().catch(
@@ -907,6 +908,7 @@ const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
 let zooming = false
 let lights = true
+let lightsOffSince: number | null = null
 
 const laptopTarget = {
     pos: new THREE.Vector3(-0.5, 1.35, -2.0),
@@ -1019,6 +1021,7 @@ const savedIntensities = new Map<THREE.Light, number>()
 const savedCeilingEmissive = new Map<THREE.Mesh, { color: THREE.Color, intensity: number }>()
 
 function lightsOff() {
+    lightsOffSince = Date.now()
     lights = false
     scene.traverse((child) => {
         if (child instanceof THREE.Light && child !== lampLight) {
@@ -1041,6 +1044,7 @@ function lightsOff() {
 }
 
 function lightsOn() {
+    lightsOffSince = null
     lights = true
     scene.traverse((child) => {
         if (child instanceof THREE.Light) {
@@ -1059,6 +1063,17 @@ function lightsOn() {
         })
     }
 }
+
+function getLightsOffDuration(): number {
+    if (!lightsOffSince) return 0
+    return Date.now() - lightsOffSince
+}
+
+const strangler = new Strangler(
+    lightsOff, lightsOn, getLightsOffDuration,
+    listener, audioLoader, windowSoundSource, BASE,
+    loader, scene
+)
 
 const computerOverlay = document.getElementById('computer-overlay')!
 const computerContainer = document.getElementById('computer-container')!
@@ -1103,6 +1118,7 @@ function animate() {
         camera.rotation.x += (targetRotationX - camera.rotation.x) * 0.05
     }
 
+    strangler.update()
     renderer.render(scene, camera)
 }
 
