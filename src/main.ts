@@ -17,13 +17,6 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({canvas})
 renderer.setSize(window.innerWidth, window.innerHeight)
 
-const ambientLight = new THREE.AmbientLight(0x999999)
-scene.add(ambientLight)
-
-const pointLight = new THREE.PointLight(0xffffff, 1, 20)
-pointLight.position.set(0, 2.5, 0)
-scene.add(pointLight)
-
 const textureLoader = new THREE.TextureLoader()
 const BASE = import.meta.env.BASE_URL
 
@@ -399,6 +392,10 @@ loader.load(BASE + 'models/Lamp.glb', (gltf) => {
     kitchen.rotation.y = Math.PI / 2
     kitchen.scale.set(1, 1, 1)
     scene.add(kitchen)
+
+    lampLight = new THREE.PointLight(0xffcc88, 0.5, 5)
+    lampLight.position.set(-2.6, 1.5, 2.7)
+    scene.add(lampLight)
 })
 
 loader.load(BASE + 'models/Door.glb', (gltf) => {
@@ -557,6 +554,7 @@ loader.load(BASE + 'models/Curved monitor.glb', (gltf) => {
 })
 
 let laptopModel: THREE.Group | null = null
+let lampLight: THREE.PointLight | null = null
 
 loader.load(BASE + 'models/laptop.glb', (gltf) => {
     const laptop = gltf.scene
@@ -1023,7 +1021,7 @@ const savedCeilingEmissive = new Map<THREE.Mesh, { color: THREE.Color, intensity
 function lightsOff() {
     lights = false
     scene.traverse((child) => {
-        if (child instanceof THREE.Light) {
+        if (child instanceof THREE.Light && child !== lampLight) {
             savedIntensities.set(child, child.intensity)
             child.intensity = 0
         }
