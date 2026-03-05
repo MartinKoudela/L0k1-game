@@ -1072,7 +1072,7 @@ function getLightsOffDuration(): number {
 const strangler = new Strangler(
     lightsOff, lightsOn, getLightsOffDuration,
     listener, audioLoader, windowSoundSource, BASE,
-    loader, scene
+    loader, scene, camera
 )
 
 const computerOverlay = document.getElementById('computer-overlay')!
@@ -1106,7 +1106,9 @@ window.addEventListener('message', (e) => {
 function animate() {
     requestAnimationFrame(animate)
 
-    if (zooming) {
+    if (strangler.animating) {
+        strangler.animateCamera()
+    } else if (zooming) {
         camera.position.lerp(laptopTarget.pos, 0.03)
 
         const dist = camera.position.distanceTo(laptopTarget.pos)

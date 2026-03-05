@@ -110,6 +110,41 @@ body {
     box-shadow: 0 0 30px #00ff4120;
 }
 
+#youDiedText {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    font-weight: 700;
+    color: #ff2222;
+    text-transform: uppercase;
+    letter-spacing: 12px;
+    text-shadow: 0 0 20px #ff0000, 0 0 60px #ff000080, 0 0 120px #ff000040;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.95) 100%);
+    z-index: 200;
+    animation: youDiedFadeIn 2s ease-out forwards;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes youDiedFadeIn {
+    0% {
+        opacity: 0;
+        letter-spacing: 30px;
+        text-shadow: 0 0 40px #ff0000, 0 0 100px #ff000080;
+    }
+    100% {
+        opacity: 1;
+        letter-spacing: 12px;
+        text-shadow: 0 0 20px #ff0000, 0 0 60px #ff000080, 0 0 120px #ff000040;
+    }
+}
+
 ::-webkit-scrollbar {
     width: 4px;
 }
