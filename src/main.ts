@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import { Strangler } from './enemies/strangler'
+import { Shade } from './enemies/shade'
 
 document.addEventListener('click', () => {
     document.body.requestFullscreen().catch(
@@ -909,6 +910,7 @@ const mouse = new THREE.Vector2()
 let zooming = false
 let lights = true
 let lightsOffSince: number | null = null
+let lightsOnSince: number | null = Date.now()
 
 const laptopTarget = {
     pos: new THREE.Vector3(-0.5, 1.35, -2.0),
@@ -1022,6 +1024,7 @@ const savedCeilingEmissive = new Map<THREE.Mesh, { color: THREE.Color, intensity
 
 function lightsOff() {
     lightsOffSince = Date.now()
+    lightsOnSince = null
     lights = false
     scene.traverse((child) => {
         if (child instanceof THREE.Light && child !== lampLight) {
@@ -1045,6 +1048,7 @@ function lightsOff() {
 
 function lightsOn() {
     lightsOffSince = null
+    lightsOnSince = Date.now()
     lights = true
     scene.traverse((child) => {
         if (child instanceof THREE.Light) {
@@ -1069,9 +1073,20 @@ function getLightsOffDuration(): number {
     return Date.now() - lightsOffSince
 }
 
+function getLightsOnDuration(): number {
+    if (!lightsOnSince) return 0
+    return Date.now() - lightsOnSince
+}
+
 const strangler = new Strangler(
     lightsOff, lightsOn, getLightsOffDuration,
     listener, audioLoader, windowSoundSource, BASE,
+    loader, scene, camera
+)
+
+const shade = new Shade(
+    lightsOff, lightsOn, getLightsOnDuration,
+    listener, audioLoader, doorSoundSource, BASE,
     loader, scene, camera
 )
 
@@ -1108,6 +1123,8 @@ function animate() {
 
     if (strangler.animating) {
         strangler.animateCamera()
+    } else if (shade.animating) {
+        shade.animateCamera()
     } else if (zooming) {
         camera.position.lerp(laptopTarget.pos, 0.03)
 
@@ -1121,6 +1138,7 @@ function animate() {
     }
 
     strangler.update()
+    shade.update()
     renderer.render(scene, camera)
 }
 

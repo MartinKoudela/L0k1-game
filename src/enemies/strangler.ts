@@ -35,7 +35,7 @@ export class Strangler {
         this.scene = scene
         this.camera = camera
         this.sound = new THREE.PositionalAudio(listener)
-        audioLoader.load(basePath + 'assets/sounds/strangler.wav', (buffer) => {
+        audioLoader.load(basePath + 'assets/sounds/strangler/strangler.wav', (buffer) => {
             this.sound.setBuffer(buffer)
             this.sound.setVolume(0.5)
             this.sound.setRefDistance(5)
@@ -44,7 +44,7 @@ export class Strangler {
         soundSource.add(this.sound)
 
         this.sound2 = new THREE.PositionalAudio(listener)
-        audioLoader.load(basePath + 'assets/sounds/strangler-breathing.wav', (buffer) => {
+        audioLoader.load(basePath + 'assets/sounds/strangler/strangler-breathing.wav', (buffer) => {
             this.sound2.setBuffer(buffer)
             this.sound2.setVolume(3)
             this.sound2.setRefDistance(5)
@@ -53,7 +53,7 @@ export class Strangler {
         soundSource.add(this.sound2)
 
         this.sound3 = new THREE.PositionalAudio(listener)
-        audioLoader.load(basePath + 'assets/sounds/strangler-jumpscare.mp3', (buffer) => {
+        audioLoader.load(basePath + 'assets/sounds/strangler/strangler-jumpscare.mp3', (buffer) => {
             this.sound3.setBuffer(buffer)
             this.sound3.setVolume(1)
             this.sound3.setRefDistance(5)
