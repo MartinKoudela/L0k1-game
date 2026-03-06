@@ -71,7 +71,7 @@ export class Strangler {
 
         loader.load(basePath + 'models/enemies/Strangler.glb', (gltf) => {
             this.model2 = gltf.scene
-            this.model2.position.set(-1.8, 0.3, -0.3)
+            this.model2.position.set(-1.8, 0.6, -0.3)
             this.model2.rotation.y = Math.PI / -0.3
             this.model2.scale.set(1.5, 1.5, 1.5)
         })
@@ -150,14 +150,17 @@ export class Strangler {
 
         if (duration === 0 && this.soundPlaying) {
             this.sound.stop()
+            this.sound2.stop()
             this.soundPlaying = false
             if (this.model) this.scene.remove(this.model)
+            if (this.model2) this.scene.remove(this.model2)
         }
 
         if (duration > 50000) {
             if (this.model) this.scene.remove(this.model)
             if (this.model2) this.scene.add(this.model2)
             if (!this.sound2.isPlaying) this.sound2.play()
+            this.sound.stop()
             this.soundPlaying = true
         }
 
