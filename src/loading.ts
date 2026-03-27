@@ -1,12 +1,16 @@
+// loading screen - nacitani modelu pred hrou
 import './loading.css'
 
+// elementy progressbaru
 const progressFill = document.getElementById('progress-fill')!
 const progressText = document.getElementById('progress-text')!
 
+// mod hry z URL
 const params = new URLSearchParams(window.location.search)
 const mode = params.get('mode') || 'survival'
 const BASE = import.meta.env.BASE_URL
 
+// seznam vsech modelu co se musi nacist
 const models = [
     'Ceiling.glb',
     'Fan.glb',
@@ -59,12 +63,14 @@ const models = [
     'enemies/Robber.glb',
 ]
 
+// aktualizace progressbaru
 function setProgress(value: number) {
     const v = Math.min(value, 100)
     progressFill.style.width = v + '%'
     progressText.textContent = Math.round(v) + '%'
 }
 
+// fetchne vsechny modely a pak presmeruje na hru
 async function runLoading() {
     let loaded = 0
 
@@ -78,4 +84,5 @@ async function runLoading() {
     window.location.href = `./game.html?mode=${mode}`
 }
 
+// spusteni
 runLoading()

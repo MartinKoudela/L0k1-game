@@ -1,3 +1,4 @@
+// importy - three.js, loadery, enemy tridy
 import './style.css'
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
@@ -11,6 +12,7 @@ document.addEventListener('click', () => {
     )
 }, {once: true})
 
+// zakladni scena + kamera + renderer
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0x0a0a0a)
 
@@ -22,6 +24,7 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 const textureLoader = new THREE.TextureLoader()
 const BASE = import.meta.env.BASE_URL
 
+// textury podlahy - drevo
 const floorColor = textureLoader.load(BASE + 'assets/textures/floor/Planks037A_2K-JPG_Color.jpg')
 floorColor.wrapS = THREE.RepeatWrapping
 floorColor.wrapT = THREE.RepeatWrapping
@@ -49,6 +52,7 @@ floor.rotation.x = -Math.PI / 2
 floor.position.y = 0
 scene.add(floor)
 
+// textury zdi - omitka
 const wallColor = textureLoader.load(BASE + 'assets/textures/wall/Plaster006_2K-JPG_Color.jpg')
 wallColor.wrapS = THREE.RepeatWrapping
 wallColor.wrapT = THREE.RepeatWrapping
@@ -72,6 +76,7 @@ const wallMaterial = new THREE.MeshStandardMaterial({
 })
 
 
+// textury druhy zdi - jina omitka
 const wall2Color = textureLoader.load(BASE + 'assets/textures/wall2/PaintedPlaster015_2K-JPG_Color.jpg')
 wall2Color.wrapS = THREE.RepeatWrapping
 wall2Color.wrapT = THREE.RepeatWrapping
@@ -109,6 +114,7 @@ const wall2SideMaterial = new THREE.MeshStandardMaterial({
     roughnessMap: wall2SideRoughness,
 })
 
+// tvar pravy zdi s dirou na dvere
 const rightWallShape = new THREE.Shape()
 rightWallShape.moveTo(-3, -1.5)
 rightWallShape.lineTo(3, -1.5)
@@ -130,10 +136,12 @@ rightWall.position.set(3, 1.5, 0)
 rightWall.rotation.y = -Math.PI / 2
 scene.add(rightWall)
 
+// zadni zed
 const backWall = new THREE.Mesh(new THREE.PlaneGeometry(6, 3), wall2Material)
 backWall.position.set(0, 1.5, -3)
 scene.add(backWall)
 
+// leva zed s dirama na okna
 const leftWallShape = new THREE.Shape()
 leftWallShape.moveTo(-3, -1.5)
 leftWallShape.lineTo(3, -1.5)
@@ -162,11 +170,13 @@ leftWall.position.set(-3, 1.5, 0)
 leftWall.rotation.y = Math.PI / 2
 scene.add(leftWall)
 
+// predni zed
 const frontWall = new THREE.Mesh(new THREE.PlaneGeometry(6, 3), wall2Material)
 frontWall.position.set(0, 1.5, 3)
 frontWall.rotation.y = Math.PI
 scene.add(frontWall)
 
+// textury stropu - beton
 const ceilingColor = textureLoader.load(BASE + 'assets/textures/ceiling/Concrete042B_2K-JPG_Color.jpg')
 ceilingColor.wrapS = THREE.RepeatWrapping
 ceilingColor.wrapT = THREE.RepeatWrapping
@@ -192,6 +202,7 @@ ceiling.rotation.x = Math.PI / 2
 ceiling.position.y = 3
 scene.add(ceiling)
 
+// svetlo nad stolem
 const deskLight = new THREE.SpotLight(0xffffff, 12, 9, Math.PI / 3)
 deskLight.penumbra = 0.8
 deskLight.position.set(0, 3.5, -2)
@@ -200,6 +211,7 @@ scene.add(deskLight)
 scene.add(deskLight.target)
 
 
+// vedlejsi mistnost - podlaha, zdi, strop, svetlo
 const nextRoomFloor = new THREE.Mesh(new THREE.PlaneGeometry(4, 4), floorMaterial)
 nextRoomFloor.rotation.x = -Math.PI / 2
 nextRoomFloor.position.set(5, 0, 1.65)
@@ -229,12 +241,14 @@ nextRoomLight.position.set(5, 2.5, 1.65)
 scene.add(nextRoomLight)
 
 
+// draco loader pro komprimovany modely
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/')
 
 const loader = new GLTFLoader()
 loader.setDRACOLoader(dracoLoader)
 
+// nacitani vsech 3D modelu do sceny
 let ceilingModel: THREE.Group | null = null
 loader.load(BASE + 'models/Ceiling.glb', (gltf) => {
 
@@ -742,6 +756,7 @@ loader.load(BASE + 'models/Glock.glb', (gltf) => {
     scene.add(glock)
 })
 
+// hvezdy za oknem
 const starsGeometry = new THREE.BufferGeometry()
 const starsCount = 200
 const positions = new Float32Array(starsCount * 3)
@@ -764,11 +779,13 @@ const stars = new THREE.Points(starsGeometry, starsMaterial)
 scene.add(stars)
 
 
+// audio listener na kamere + audio loader
 const listener = new THREE.AudioListener()
 camera.add(listener)
 
 const audioLoader = new THREE.AudioLoader()
 
+// zdroje zvuku - okno, dvere, za zady, servery
 const windowSoundSource = new THREE.Object3D()
 windowSoundSource.position.set(-5, 1.5, -0.5)
 scene.add(windowSoundSource)
@@ -785,6 +802,7 @@ const serversSoundSource = new THREE.Object3D()
 serversSoundSource.position.set(4, 1, -1.65)
 scene.add(serversSoundSource)
 
+// ambient zvuky - psi, praskani, voda, telefon, sanitka, strelba
 const dogSounds = [
     BASE + 'assets/sounds/dogs.wav',
     BASE + 'assets/sounds/dogs2.wav',
@@ -857,6 +875,7 @@ audioLoader.load(BASE + 'assets/sounds/servers.wav', (buffer) => {
 serversSoundSource.add(serversLoopSound)
 
 
+// nahodny prehravani ambient zvuku v loopu
 function playRandomDog() {
     const dog = new THREE.PositionalAudio(listener)
     dog.setRefDistance(1)
@@ -914,14 +933,17 @@ setTimeout(playRandomWater, 30000 + Math.random() * 40000)
 setTimeout(playRandomShootout, 35000 + Math.random() * 50000)
 setTimeout(playRandomPhone, 40000 + Math.random() * 60000)
 
+// pozice kamery hrace
 // camera.position.set(0, 1.5, -1.5) // pozice kamery
 camera.position.set(0, 1.5, -1.5) // pozice kamery - development
 
+// rotace kamery mysi
 let targetRotationY = 0
 let targetRotationX = 0
 const maxRotationY = Math.PI * 0.9
 const maxRotationX = Math.PI * 0.15
 
+// raycaster pro klikani na objekty
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
 let zooming = false
@@ -934,6 +956,7 @@ const laptopTarget = {
     rot: new THREE.Euler(-0.15, Math.PI, 0),
 }
 
+// klik na laptop = zoom + otevreni PC
 canvas.addEventListener('click', (e) => {
     if (zooming || !laptopModel) return
 
@@ -950,6 +973,7 @@ canvas.addEventListener('click', (e) => {
     }
 })
 
+// klik na strop = prepnuti svetel
 canvas.addEventListener('click', (e) => {
     if (!ceilingModel) return
 
@@ -969,6 +993,7 @@ canvas.addEventListener('click', (e) => {
 })
 
 
+// hover efekt na laptop a strop - zeleny glow
 let laptopHovered = false
 let ceilingHovered = false
 
@@ -1004,6 +1029,7 @@ function setHoverGlow(model: THREE.Group, hovered: boolean) {
     })
 }
 
+// pohyb mysi = rotace kamery + hover detekce
 document.addEventListener('mousemove', (e) => {
     if (zooming) return
     const mouseX = (e.clientX / window.innerWidth) * 2 - 1
@@ -1039,6 +1065,7 @@ const savedIntensities = new Map<THREE.Light, number>()
 
 const savedCeilingEmissive = new Map<THREE.Mesh, { color: THREE.Color, intensity: number }>()
 
+// vypnuti/zapnuti svetel
 function lightsOff() {
     lightsOffSince = Date.now()
     lightsOnSince = null
@@ -1085,6 +1112,7 @@ function lightsOn() {
     }
 }
 
+// jak dlouho jsou svetla vyply/zaply - pouzivaj enemies
 function getLightsOffDuration(): number {
     if (!lightsOffSince) return 0
     return Date.now() - lightsOffSince
@@ -1095,6 +1123,7 @@ function getLightsOnDuration(): number {
     return Date.now() - lightsOnSince
 }
 
+// vytvoreni enemies
 const strangler = new Strangler(
     lightsOff, lightsOn, getLightsOffDuration,
     listener, audioLoader, windowSoundSource, BASE,
@@ -1107,6 +1136,7 @@ const shade = new Shade(
     loader, scene, camera
 )
 
+// overlay pro PC - iframe s computer.html
 const computerOverlay = document.getElementById('computer-overlay')!
 const computerContainer = document.getElementById('computer-container')!
 let computerOpen = false
@@ -1135,6 +1165,7 @@ window.addEventListener('message', (e) => {
     }
 })
 
+// hlavni game loop
 function animate() {
     requestAnimationFrame(animate)
 
@@ -1161,6 +1192,7 @@ function animate() {
 
 animate()
 
+// resize handleru
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()

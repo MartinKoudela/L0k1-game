@@ -1,13 +1,16 @@
+// importy - styly, fontawesome, terminal
 import './computer.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import {Terminal} from './terminal/terminal'
 
+// prvni klik = fullscreen
 document.addEventListener('click', () => {
     document.body.requestFullscreen().catch(
         (err) => console.error('Error requesting fullscreen:', err)
     )
 }, {once: true})
 
+// terminal s prikazy pro ingame PC
 const terminal = new Terminal(document.getElementById('menu')!, {
     'help': () => {
         terminal.addLine('=== FILES ===')
@@ -49,6 +52,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     },
     'cat fsoceity': () => 'We are watching you.',
 
+    // prikazy co jsou jen ve hre
     'ssh': () => 'Usage: ssh <user>@<host> (available in game)',
     'scp': () => 'Usage: scp <file> <user>@<host>:<path> (available in game)',
     'wget': () => 'Usage: wget <url> (available in game)',
@@ -59,6 +63,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     'ping': () => 'Usage: ping <host> (available in game)',
     'grep': () => 'Usage: grep <pattern> <file> (available in game)',
 
+    // zakazany prikazy
     'chmod': () => 'Permission denied: restricted shell',
     'mkdir': () => 'Permission denied: restricted shell',
     'rm': () => 'Permission denied: restricted shell',
@@ -79,12 +84,14 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     'mount': () => 'Permission denied: restricted shell',
 })
 
+// hodiny v topbaru
 const date = document.getElementById('topbar-date')
 const time = document.getElementById('topbar-time')
 
 date && setInterval(() => date.innerHTML = new Date().toLocaleDateString(), 1000)
 time && setInterval(() => time.innerHTML = new Date().toLocaleTimeString(), 1000)
 
+// ikonky na ploše - vsechny ukazou hlasku
 const icons = document.querySelectorAll('.icon')
 icons.forEach(icon => icon.addEventListener('click', () => terminal.addLine("We are in your system, use terminal only.")))
 

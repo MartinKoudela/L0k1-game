@@ -1,6 +1,8 @@
+// Shade - nepřítel co přijde kdyz mas dlouho zaply svetla
 import * as THREE from "three"
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js"
 
+// vlastnosti - zvuky, model, animace, kamera
 export class Shade {
     private getLightsOnDuration: () => number
     private sound: THREE.PositionalAudio
@@ -22,6 +24,7 @@ export class Shade {
     private zoomSpeed = 0
     private shakeIntensity = 0
 
+    // nacte zvuky (dupani, klepani, vystresl) a model
     constructor(
         _lightsOff: () => void,
         _lightsOn: () => void,
@@ -81,6 +84,7 @@ export class Shade {
     }
 
 
+    // spusti animaci smrti - kamera se otoci na shade a zoomuje
     startAnimation() {
         if (!this.model) return
         this.animating = true
@@ -96,6 +100,7 @@ export class Shade {
         this.targetLookAt.copy(tempCamera.quaternion)
     }
 
+    // animuje kameru - nejdriv otoceni, pak zoom + shake
     animateCamera(): boolean {
         if (!this.animating || !this.model) return false
 
@@ -141,6 +146,7 @@ export class Shade {
         return true
     }
 
+    // hlavni update - podle casu zaply svetel prehrava zvuky a spousti animaci
     update() {
         if (this.mixer) this.mixer.update(this.clock.getDelta())
         const duration = this.getLightsOnDuration()

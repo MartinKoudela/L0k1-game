@@ -1,5 +1,7 @@
+// Terminal trida - fake linux terminal
 import './terminal.css'
 
+// vlastnosti - output, input, prikazy, username
 export class Terminal {
 
     private outputEl: HTMLDivElement
@@ -17,7 +19,7 @@ export class Terminal {
         this.commands = commands
         this.containerEl = container
 
-
+        // vytvoreni output divu a "last login" textu
         this.outputEl = document.createElement('div')
         this.outputEl.id = 'terminal-output'
 
@@ -28,11 +30,13 @@ export class Terminal {
 
         container.appendChild(this.outputEl)
 
+        // input radek s promptem
         const inputLine = document.createElement('div')
         inputLine.id = 'terminal-input-line'
 
         const prompt = document.createElement('span')
         this.promptEl = prompt
+        // kontrola jestli uz ma username v sessionStorage
         const savedUsername = sessionStorage.getItem('l0k1-username')
         if (savedUsername) {
             this.username = savedUsername
@@ -53,6 +57,7 @@ export class Terminal {
         inputLine.appendChild(this.inputEl)
         container.appendChild(inputLine)
 
+        // enter = zpracuj prikaz
         this.inputEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 this.handleCommand(this.inputEl.value)
@@ -61,6 +66,7 @@ export class Terminal {
         })
     }
 
+    // prida radek do terminalu
     addLine(text: string) {
         const line = document.createElement('p')
         line.textContent = text
@@ -73,9 +79,11 @@ export class Terminal {
         return this.username
     }
 
+    // zpracovani prikazu
     private handleCommand(input: string) {
         const cmd = input.trim().toLowerCase()
 
+        // prvni zadani = nastaveni username
         if (!this.username) {
             this.username = cmd
             this.addLine(`> ${this.username}`)
@@ -97,6 +105,7 @@ export class Terminal {
             return
         }
 
+        // vypis enemies
         if (cmd === 'ls enemies' || cmd === 'ls enemies/') {
             this.addLine('=== KNOWN THREATS ===')
             this.addLine('')
@@ -111,6 +120,7 @@ export class Terminal {
             return
         }
 
+        // profily enemies - lore a popis
         if (cmd === 'cat enemies/strangler') {
             this.addLine('=== THREAT PROFILE: STRANGLER ===')
             this.addLine('')
@@ -331,6 +341,7 @@ export class Terminal {
             return
         }
 
+        // fake linux logy - auth, kern, access, cron, mail, syslog
         if (cmd === 'cat var/log/auth.log' || cmd === 'cat /var/log/auth.log') {
             this.addLine('[2026-02-27 22:41:03] Failed password for root from 185.220.101.34 port 22 ssh2')
             this.addLine('[2026-02-27 22:41:04] Failed password for root from 185.220.101.34 port 22 ssh2')
@@ -420,6 +431,7 @@ export class Terminal {
             return
         }
 
+        // fake maily - inbox, sent, drafts
         if (cmd === 'cat var/mail/inbox' || cmd === 'cat /var/mail/inbox') {
             this.addLine('=== INBOX (3 messages) ===')
             this.addLine('')
@@ -516,6 +528,7 @@ export class Terminal {
             return
         }
 
+        // konfiguracni soubory - bashrc, ssh klice, passwd, hosts...
         if (cmd === 'cat .bashrc') {
             this.addLine('# ~/.bashrc')
             this.addLine('export PS1="\\u@L0k1:~$ "')
@@ -647,6 +660,7 @@ export class Terminal {
             return
         }
 
+        // fallback pro cat - hledani v commands
         if (cmd.startsWith('cat ')) {
             const file = cmd.slice(4)
             const catAction = this.commands['cat ' + file]
@@ -659,6 +673,7 @@ export class Terminal {
             return
         }
 
+        // ls prikazy pro ruzny adresare
         if (cmd === 'ls') {
             this.addLine('.bashrc')
             this.addLine('.ssh/')
@@ -740,6 +755,7 @@ export class Terminal {
             return
         }
 
+        // systemovy prikazy - whoami, clear, date, hostname, pwd...
         if (cmd === 'whoami') {
             this.addLine(this.username)
             return
@@ -901,6 +917,7 @@ export class Terminal {
             return
         }
 
+        // neofetch - ascii logo + system info
         if (cmd === 'neofetch') {
             const logo = [
                 '  ██╗      ██████╗ ██╗  ██╗ ██╗',
@@ -925,6 +942,7 @@ export class Terminal {
             return
         }
 
+        // fallback - zkusi najit prikaz v commands objektu
         for (const key of Object.keys(this.commands)) {
             if (cmd.startsWith(key + ' ') || cmd === key) {
                 const args = cmd.slice(key.length + 1)
@@ -938,6 +956,7 @@ export class Terminal {
     }
 }
 
+// dragovani okna terminalu
 const win = document.getElementById('window')!
 const titlebar = document.getElementById('window-titlebar')!
 const wrapper = document.getElementById('menu-wrapper')!

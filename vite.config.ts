@@ -1,3 +1,4 @@
+// vite config - vic vstupnich HTML stranek
 import { defineConfig } from 'vite'
 
 export default defineConfig({

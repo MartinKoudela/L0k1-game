@@ -1,13 +1,16 @@
+// importy - styly, fontawesome, terminal
 import './menu.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import {Terminal} from './terminal/terminal'
 
+// prvni klik = fullscreen
 document.addEventListener('click', () => {
     document.body.requestFullscreen().catch(
         (err) => console.error('Error requesting fullscreen:', err)
     )
 }, {once: true})
 
+// terminal s prikazy pro menu
 const terminal = new Terminal(document.getElementById('menu')!, {
     'help': () => {
         terminal.addLine('=== GAME ===')
@@ -44,6 +47,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
         return '  help            - show this message'
     },
 
+    // prikaz ls - vypis souboru
     'ls': () => {
         terminal.addLine('readme')
         terminal.addLine('enemies/')
@@ -53,6 +57,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
         return 'fsoceity'
     },
 
+    // spusteni hry
     './survival': () => {
         window.location.href = './loading.html?mode=survival'
         return 'Loading survival mode...'
@@ -60,6 +65,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     './endless': () => {
         return 'Coming soon...'
     },
+    // cteni souboru
     'cat readme': () => {
         terminal.addLine('You are a hacker. Clients give you quests.')
         terminal.addLine('Use real terminal commands to complete them.')
@@ -71,6 +77,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     'cat survival': () => 'Executable file. Use ./survival to run.',
     'cat endless': () => 'Executable file. Use ./endless to run.',
 
+    // prikazy co jsou jen ve hre
     'ssh': () => 'Usage: ssh <user>@<host> (available in game)',
     'scp': () => 'Usage: scp <file> <user>@<host>:<path> (available in game)',
     'wget': () => 'Usage: wget <url> (available in game)',
@@ -81,6 +88,7 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     'ping': () => 'Usage: ping <host> (available in game)',
     'grep': () => 'Usage: grep <pattern> <file> (available in game)',
 
+    // zakazany prikazy
     'chmod': () => 'Permission denied: restricted shell',
     'mkdir': () => 'Permission denied: restricted shell',
     'rm': () => 'Permission denied: restricted shell',
@@ -101,12 +109,14 @@ const terminal = new Terminal(document.getElementById('menu')!, {
     'mount': () => 'Permission denied: restricted shell',
 })
 
+// hodiny v topbaru
 const date = document.getElementById('topbar-date')
 const time = document.getElementById('topbar-time')
 
 date && setInterval(() => date.innerHTML = new Date().toLocaleDateString(), 1000)
 time && setInterval(() => time.innerHTML = new Date().toLocaleTimeString(), 1000)
 
+// ikonky na ploše - vsechny ukazou hlasku
 const icons = document.querySelectorAll('.icon')
 icons.forEach(icon => icon.addEventListener('click', () => terminal.addLine("We are in your system, use terminal only.")))
 

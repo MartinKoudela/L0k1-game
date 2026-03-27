@@ -1,6 +1,8 @@
+// Strangler - nepřítel co přijde kdyz mas dlouho vyply svetla
 import * as THREE from "three"
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js"
 
+// vlastnosti - zvuky, modely, animace, kamera
 export class Strangler {
     private getLightsOffDuration: () => number
     private sound: THREE.PositionalAudio
@@ -19,6 +21,7 @@ export class Strangler {
     private zoomSpeed = 0
     private shakeIntensity = 0
 
+    // nacte zvuky (skrabani, dychani, jumpscare) a 2 modely
     constructor(
         _lightsOff: () => void,
         _lightsOn: () => void,
@@ -78,6 +81,7 @@ export class Strangler {
     }
 
 
+    // spusti animaci smrti - kamera na stranglera
     startAnimation() {
         if (!this.model2) return
         this.animating = true
@@ -93,6 +97,7 @@ export class Strangler {
         this.targetLookAt.copy(tempCamera.quaternion)
     }
 
+    // animuje kameru - otoceni + zoom + shake
     animateCamera(): boolean {
         if (!this.animating || !this.model2) return false
 
@@ -138,6 +143,7 @@ export class Strangler {
         return true
     }
 
+    // hlavni update - podle casu vyplych svetel prehrava zvuky, ukazuje model, spousti animaci
     update() {
         const duration = this.getLightsOffDuration()
 

@@ -1,3 +1,4 @@
+/* reset + zakladni styly - hacker tema */
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +14,7 @@ body {
     color: #00ff41;
 }
 
+/* horni lista */
 #topbar {
     display: flex;
     align-items: center;
@@ -40,12 +42,14 @@ body {
     font-size: 12px;
 }
 
+/* wrapper pro plochu */
 #menu-wrapper {
     flex: 1;
     position: relative;
     overflow: hidden;
 }
 
+/* ikonky na plose */
 #desktop-icons {
     position: absolute;
     top: 16px;
@@ -59,6 +63,7 @@ body {
     z-index: 2;
 }
 
+/* jedna ikonka */
 .desktop-icon {
     display: flex;
     flex-direction: column;
@@ -91,6 +96,7 @@ body {
     line-height: 1.2;
 }
 
+/* okno terminalu */
 #window {
     position: absolute;
     width: 700px;
@@ -103,6 +109,7 @@ body {
     box-shadow: 0 8px 32px rgba(0, 255, 65, 0.05);
 }
 
+/* titlebar okna - macOS styl */
 #window-titlebar {
     display: flex;
     align-items: center;
@@ -168,6 +175,7 @@ body {
     width: 60px;
 }
 
+/* obsah terminalu */
 #menu {
     width: 100%;
     background: #0a0a0a;
@@ -178,6 +186,7 @@ body {
     min-height: 0;
 }
 
+/* spodni lista - taskbar */
 #bottombar {
     display: flex;
     align-items: center;

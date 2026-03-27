@@ -1,3 +1,4 @@
+/* styly terminalu */
 #terminal-output {
 }
 
@@ -9,16 +10,19 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* last login text */
 #login-div {
     color: #aaaaaa;
 }
 
+/* neofetch ascii art */
 .neofetch-logo {
     font-family: monospace;
     white-space: pre;
     line-height: 1.2;
 }
 
+/* prompt */
 #terminal-input-line span {
     color: #00ff41;
     white-space: nowrap;
@@ -28,6 +32,7 @@
     margin-top: 2px;
 }
 
+/* input pole */
 #terminal-input {
     background: none;
     border: none;

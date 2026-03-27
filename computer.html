@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<!-- horni lista -->
 <nav id="topbar">
     <div class="topbar-left icon">
         <i class="fa-solid fa-skull"></i>
@@ -19,6 +20,7 @@
         <span id="topbar-time"></span>
     </div>
 </nav>
+<!-- plocha s ikonkama a oknem terminalu -->
 <!-- TODO: New client chat tab/window-->
 <div id="menu-wrapper">
     <div id="desktop-icons">
@@ -43,6 +45,7 @@
             <span>Trash</span>
         </div>
     </div>
+    <!-- okno terminalu -->
     <div id="window">
         <div id="window-titlebar">
             <div class="window-buttons">
@@ -57,6 +60,7 @@
         </div>
     </div>
 </div>
+<!-- spodni lista -->
 <footer id="bottombar">
     <div class="bottombar-left">
         <i class="fa-solid fa-terminal" title="Terminal"></i>
@@ -73,11 +77,13 @@
         <span>73%</span>
     </div>
 </footer>
+<!-- Q = zavrit PC -->
 <script>
     document.addEventListener('keydown', (e) => {
         if (e.key === 'q') window.parent.postMessage('close-computer', '*')
     })
 </script>
+<!-- computer script -->
 <script type="module" src="/src/computer.ts"></script>
 </body>
 </html>

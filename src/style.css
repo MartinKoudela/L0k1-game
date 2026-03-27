@@ -1,3 +1,4 @@
+/* reset + zakladni styly */
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +12,7 @@ body {
     color: #00ff41;
 }
 
+/* canvas pres celou obrazovku */
 #game-canvas {
     position: fixed;
     top: 0;
@@ -19,6 +21,7 @@ body {
     height: 100vh;
 }
 
+/* HUD overlay nahore */
 #hud {
     position: fixed;
     top: 0;
@@ -44,6 +47,7 @@ body {
     text-shadow: 0 0 10px #ff3333;
 }
 
+/* terminal dole vlevo */
 #terminal {
     position: fixed;
     bottom: 20px;
@@ -64,6 +68,7 @@ body {
     opacity: 0.85;
 }
 
+/* overlay pro minihry */
 #minigame-overlay {
     position: fixed;
     top: 0;
@@ -81,6 +86,7 @@ body {
     display: none;
 }
 
+/* overlay pro PC */
 #computer-overlay {
     position: fixed;
     top: 0;
@@ -100,6 +106,7 @@ body {
     height: 100%;
 }
 
+/* kontejner minihry */
 #minigame-container {
     width: 600px;
     max-width: 90vw;
@@ -110,6 +117,7 @@ body {
     box-shadow: 0 0 30px #00ff4120;
 }
 
+/* "you are dead" text */
 #youDiedText {
     position: fixed;
     top: 0;
@@ -132,6 +140,7 @@ body {
     pointer-events: none;
 }
 
+/* animace fadeinu textu smrti */
 @keyframes youDiedFadeIn {
     0% {
         opacity: 0;
@@ -145,6 +154,7 @@ body {
     }
 }
 
+/* custom scrollbar */
 ::-webkit-scrollbar {
     width: 4px;
 }
